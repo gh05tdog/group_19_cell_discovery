@@ -3,4 +3,9 @@ project(group_19_cell_discovery C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(group_19_cell_discovery main.c)
+include_directories(.)
+
+add_executable(group_19_cell_discovery
+        cbmp.c
+        cbmp.h
+        main.c)
