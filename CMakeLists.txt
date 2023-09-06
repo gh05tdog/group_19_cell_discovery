@@ -6,6 +6,6 @@ set(CMAKE_C_STANDARD 11)
 include_directories(.)
 
 add_executable(group_19_cell_discovery
-        cbmp.c
         cbmp.h
-        main.c)
+        main.c
+        cbmp.c)
