@@ -8,4 +8,7 @@ include_directories(.)
 add_executable(group_19_cell_discovery
         cbmp.h
         main.c
-        cbmp.c)
+        cbmp.c
+        src/erode.c
+        src/erode.h
+)
