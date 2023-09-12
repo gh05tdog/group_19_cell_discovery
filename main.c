@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <intrin.h>
 #include "cbmp.h"
 #include "src/erode.h"
 
@@ -46,24 +47,13 @@ void gray_to_rgb(unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH],
     }
 }
 
-void grey_to_binary(unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH], unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH]) {
-    for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGTH; ++y) {
-            unsigned char gray = gray_image[x][y];
-            if (gray > 90) {
-                binary_image[x][y] = 255;
-            } else {
-                binary_image[x][y] = 0;
-            }
-        }
-    }
-}
-
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
 unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
 unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
-unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH];
+unsigned char current_image[BMP_WIDTH][BMP_HEIGTH];
 unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH];
+unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH];
+
 
 //Main function
 int main(int argc, char **argv) {
@@ -77,43 +67,28 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Usage: %s <output file path> <output file path>\n", argv[0]);
         exit(1);
     }
-
-    //Load image from file
+    // Load image from file
     read_bitmap(argv[1], input_image);
 
-    // Convert to grayscale
+    // Convert to binary (assuming this function populates current_image)
     convert_to_binary(input_image, binary_image);
 
-    // Erode
-    unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH];
 
     binary_erode(binary_image, eroded_image);
 
-    printf("Eroded once\n");
+    // Perform the erosion 10 times
+    for(int i = 1; i < 10; ++i) {
+        binary_erode(eroded_image, current_image);
 
-    //Save the image to file
+        // Copy the current_image image back into eroded_image for the next round
+        memcpy(eroded_image, current_image, sizeof(current_image));
+    }
+
+    // Save the final eroded image
     gray_to_rgb(eroded_image, output_image);
-
-    write_bitmap(output_image, "../eroded_once.bmp");
-
-    unsigned char eroded_image2[BMP_WIDTH][BMP_HEIGTH];
-
-    // Erode again
-    binary_erode(eroded_image, eroded_image2);
-
-    // Convert 2D grayscale image back to 3D RGB image
-    gray_to_rgb(eroded_image2, output_image);
-
-    // Save image to file
-    write_bitmap(output_image, "../eroded_twice.bmp");
-
-    binary_erode(eroded_image2, eroded_image);
-
-    gray_to_rgb(eroded_image, output_image);
-
-    write_bitmap(output_image, "../eroded_thrice.bmp");
-
+    write_bitmap(output_image, "../eroded_image.bmp");
 
     printf("Done!\n");
     return 0;
 }
+
