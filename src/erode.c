@@ -4,11 +4,13 @@
 
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGTH], unsigned char eroded[BMP_WIDTH][BMP_HEIGTH]) {
 
+
     int structuring_element[3][3] = {
             {0, 1, 0},
             {1, 1, 1},
             {0, 1, 0}
     };
+
 
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGTH; ++y) {
@@ -46,4 +48,5 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGTH], unsigned char ero
             }
         }
     }
+
 }
