@@ -11,4 +11,6 @@ add_executable(group_19_cell_discovery
         cbmp.c
         src/erode.c
         src/erode.h
+        src/cell_check.c
+        src/cell_check.h
 )

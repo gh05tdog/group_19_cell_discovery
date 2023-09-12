@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "cbmp.h"
 #include "src/erode.h"
+#include "src/cell_check.h"
 
 void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS],
                            unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH]) {
@@ -59,11 +60,14 @@ void grey_to_binary(unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH], unsigned ch
     }
 }
 
+
+
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
 unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
 unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
 unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH];
 unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH];
+unsigned char checked_image[BMP_WIDTH][BMP_HEIGTH];
 
 //Main function
 int main(int argc, char **argv) {
@@ -105,13 +109,59 @@ int main(int argc, char **argv) {
     gray_to_rgb(eroded_image2, output_image);
 
     // Save image to file
-    write_bitmap(output_image, "../eroded_twice.bmp");
+    write_bitmap(output_image, "../eroded_2.bmp");
 
     binary_erode(eroded_image2, eroded_image);
 
+    gray_to_rgb(eroded_image,output_image);
+
+    write_bitmap(output_image, "../eroded_3.bmp");
+
+    binary_erode(eroded_image, eroded_image2);
+
+    // Convert 2D grayscale image back to 3D RGB image
+    gray_to_rgb(eroded_image2, output_image);
+
+    write_bitmap(output_image, "../eroded_4.bmp");
+
+    binary_erode(eroded_image2, eroded_image);
+
+    // Convert 2D grayscale image back to 3D RGB image
     gray_to_rgb(eroded_image, output_image);
 
-    write_bitmap(output_image, "../eroded_thrice.bmp");
+    write_bitmap(output_image, "../eroded_5.bmp");
+
+    binary_erode(eroded_image, eroded_image2);
+
+    // Convert 2D grayscale image back to 3D RGB image
+    gray_to_rgb(eroded_image2, output_image);
+
+    write_bitmap(output_image, "../eroded_6.bmp");
+
+    binary_erode(eroded_image2, eroded_image);
+
+    // Convert 2D grayscale image back to 3D RGB image
+    gray_to_rgb(eroded_image, output_image);
+
+    write_bitmap(output_image, "../eroded_7.bmp");
+
+    binary_erode(eroded_image, eroded_image2);
+    // Convert 2D grayscale image back to 3D RGB image
+    gray_to_rgb(eroded_image2, output_image);
+
+    write_bitmap(output_image, "../eroded_8.bmp");
+
+    binary_erode(eroded_image2, eroded_image);
+    // Convert 2D grayscale image back to 3D RGB image
+    gray_to_rgb(eroded_image, output_image);
+
+    write_bitmap(output_image, "../eroded_9.bmp");
+
+    cell_check(eroded_image,checked_image);
+
+    gray_to_rgb(checked_image, output_image);
+
+    write_bitmap(output_image, "../eroded_9.5.bmp");
 
 
     printf("Done!\n");
