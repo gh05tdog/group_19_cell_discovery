@@ -18,7 +18,7 @@ int coord_index = 0;
 
 
 void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS],
-                           unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT]) {
+                       unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT]) {
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char red = rgb_image[x][y][0];
