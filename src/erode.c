@@ -6,7 +6,8 @@
 #define BLACK 0
 #define WHITE 255
 
-void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], unsigned char eroded[BMP_WIDTH][BMP_HEIGHT], int *any_pixel_eroded) {
+void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], unsigned char eroded[BMP_WIDTH][BMP_HEIGHT],
+                  int *any_pixel_eroded) {
     int structuring_element[3][3] = {
             {0, 1, 0},
             {1, 1, 1},

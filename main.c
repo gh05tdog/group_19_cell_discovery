@@ -56,21 +56,20 @@ void gray_to_rgb(unsigned char gray_image[BMP_WIDTH][BMP_HEIGHT],
     for (int i = 0; i < coord_index; ++i) {
         int x = coordinates[i].x;
         int y = coordinates[i].y;
-        for (int j = x - 6; j <= x + 6; ++j) {
-            rgb_image[j][y - 6][0] = 255;
-            rgb_image[j][y - 6][1] = 0;
-            rgb_image[j][y - 6][2] = 0;
-            rgb_image[j][y + 6][0] = 255;
-            rgb_image[j][y + 6][1] = 0;
-            rgb_image[j][y + 6][2] = 0;
-        }
-        for (int j = y - 6; j <= y + 6; ++j) {
-            rgb_image[x - 6][j][0] = 255;
-            rgb_image[x - 6][j][1] = 0;
-            rgb_image[x - 6][j][2] = 0;
-            rgb_image[x + 6][j][0] = 255;
-            rgb_image[x + 6][j][1] = 0;
-            rgb_image[x + 6][j][2] = 0;
+
+        // Add a thicker and bigger red cross around the cell
+        for (int j = -12; j <= 12; ++j) {
+            // Check if the pixel is within the image boundaries
+            if (x + j >= 0 && x + j < BMP_WIDTH && y >= 0 && y < BMP_HEIGHT) {
+                rgb_image[x + j][y][0] = 255;
+                rgb_image[x + j][y][1] = 0;
+                rgb_image[x + j][y][2] = 0;
+            }
+            if (x >= 0 && x < BMP_WIDTH && y + j >= 0 && y + j < BMP_HEIGHT) {
+                rgb_image[x][y + j][0] = 255;
+                rgb_image[x][y + j][1] = 0;
+                rgb_image[x][y + j][2] = 0;
+            }
         }
     }
 }
