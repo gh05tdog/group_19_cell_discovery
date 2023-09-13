@@ -56,9 +56,10 @@ unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH];
 
 
-
 //Main function
 int main(int argc, char **argv) {
+    int cells = 0;
+    int is_eroded;
     //argc counts how may arguments are passed
     //argv[0] is a string with the name of the program
     //argv[1] is the first command line argument (input image)
@@ -69,12 +70,6 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Usage: %s <output file path> <output file path>\n", argv[0]);
         exit(1);
     }
-
-    // initialize integer for counting cells:
-
-    int cells = 0;
-
-
     // Load image from file
     read_bitmap(argv[1], input_image);
 
@@ -82,14 +77,14 @@ int main(int argc, char **argv) {
     convert_to_binary(input_image, binary_image);
 
 
-    binary_erode(binary_image, eroded_image);
-
+    binary_erode(binary_image, eroded_image, &is_eroded);
+    int i = 0;
     // Perform the erosion 10 times
-    for(int i = 1; i < 20; ++i) {
+    while(1) {
+        ++i;
+        char str[24];
 
-        char str[20];
-
-        strcpy(str,"../eroded_image");
+        strcpy(str,"../eroded_image ");
 
         char numStr[23];
 
@@ -99,7 +94,7 @@ int main(int argc, char **argv) {
         strcat(str,".bmp");
 
 
-        binary_erode(eroded_image, current_image);
+        binary_erode(eroded_image, current_image, &is_eroded);
         cell_check(eroded_image,current_image, &cells);
 
         gray_to_rgb(eroded_image, output_image);
@@ -107,11 +102,15 @@ int main(int argc, char **argv) {
 
         // Copy the current_image image back into eroded_image for the next round
         memcpy(eroded_image, current_image, sizeof(current_image));
+
+        if(is_eroded == 0) {
+            break;
+        }
     }
 
 
+    printf("The numbers of cells found is: %d\n",cells);
     printf("Done!\n");
-    printf("Cells found: %d",cells);
     return 0;
 }
 
