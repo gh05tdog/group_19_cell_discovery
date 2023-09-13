@@ -7,10 +7,10 @@
 #include <stdio.h>
 #include "cbmp.h"
 
-void cell_check (unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned char checked_image[BMP_WIDTH][BMP_HEIGTH]) {
-    int count = 0;
+void cell_check (unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned char checked_image[BMP_WIDTH][BMP_HEIGTH], int *cells) {
 
     int x = 0;
+    int count = 0;
 
     while (x < BMP_WIDTH-2) {
 
@@ -18,8 +18,7 @@ void cell_check (unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned cha
 
         while (y < BMP_HEIGTH) {
 
-            unsigned char eroded = eroded_image[x][y];
-            if (eroded == 255) {
+            if (eroded_image[x][y] == 255) {
                 int i = 6;
                 int is_clear = 1;
 
@@ -32,12 +31,11 @@ void cell_check (unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned cha
 
                     if (boundary3 == 255 || boundary4 == 255) {
                         is_clear = 0;
-                        y = y + 7 + i;
+                        y = y + 6 + i;
                         break;
                     }
-                    if (boundary1 == 255 || boundary2 == 255) {
+                    else if (boundary1 == 255 || boundary2 == 255) {
                         is_clear = 0;
-                        y++;
                         break;
                     }
                     i--;
@@ -47,32 +45,27 @@ void cell_check (unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned cha
                 if (is_clear == 1) {
                     for (int p = x - 6; p <= x + 6; ++p) {
                         for (int q = y - 6; q <= y + 6; q++) {
-                            if (eroded_image[p][q] == 255) {
-                                checked_image[p][q] = 0;
-                                eroded_image[p][q] = 0;
-                            }
-                            if (eroded_image[p][q] == 0) {
-                                checked_image[p][q] = 255;
-                            }
+
+                            eroded_image[p][q] = 0;
+                            checked_image[p][q] = 0;
                         }
 
                     }
-                    printf("x = %d", x);
-                    printf(" y = %d", y);
-                    printf("\n");
                     count++;
                     break;
                 }
             }
 
+
 //____________________________________________________________________________________
-            else {
                 y++;
-            }
         }
         x++;
     }
 
 
+
+    *cells += count;
     printf("The count of cells is: %d",count);
+    printf("\n");
 }
