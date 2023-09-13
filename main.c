@@ -10,6 +10,11 @@
 #include "cbmp.h"
 #include "src/erode.h"
 #include "src/cell_check.h"
+#include "src/global_vars.h"
+
+Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells
+int coord_index = 0;
+
 
 void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS],
                            unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH]) {
@@ -37,13 +42,34 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNE
 }
 
 void gray_to_rgb(unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH],
-                 unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]) {
+                 unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], Coordinate coordinates[1000]){
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGTH; ++y) {
             unsigned char gray = gray_image[x][y];
             rgb_image[x][y][0] = gray;
             rgb_image[x][y][1] = gray;
             rgb_image[x][y][2] = gray;
+        }
+    }
+    //Add a red square around the cells
+    for (int i = 0; i < coord_index; ++i) {
+        int x = coordinates[i].x;
+        int y = coordinates[i].y;
+        for (int j = x - 6; j <= x + 6; ++j) {
+            rgb_image[j][y - 6][0] = 255;
+            rgb_image[j][y - 6][1] = 0;
+            rgb_image[j][y - 6][2] = 0;
+            rgb_image[j][y + 6][0] = 255;
+            rgb_image[j][y + 6][1] = 0;
+            rgb_image[j][y + 6][2] = 0;
+        }
+        for (int j = y - 6; j <= y + 6; ++j) {
+            rgb_image[x - 6][j][0] = 255;
+            rgb_image[x - 6][j][1] = 0;
+            rgb_image[x - 6][j][2] = 0;
+            rgb_image[x + 6][j][0] = 255;
+            rgb_image[x + 6][j][1] = 0;
+            rgb_image[x + 6][j][2] = 0;
         }
     }
 }
@@ -97,7 +123,7 @@ int main(int argc, char **argv) {
         binary_erode(eroded_image, current_image, &is_eroded);
         cell_check(eroded_image,current_image, &cells);
 
-        gray_to_rgb(eroded_image, output_image);
+        gray_to_rgb(eroded_image, output_image, coordinates);
         write_bitmap(output_image, str);
 
         // Copy the current_image image back into eroded_image for the next round
@@ -110,6 +136,11 @@ int main(int argc, char **argv) {
 
 
     printf("The numbers of cells found is: %d\n",cells);
+    printf("The coordinates are: \n");
+    printf("The coordinates are: \n");
+    for (int i = 0; i < coord_index; ++i) {
+        printf("Cell %d is at x: %d, y: %d\n", i + 1, coordinates[i].x, coordinates[i].y);
+    }
     printf("Done!\n");
     return 0;
 }

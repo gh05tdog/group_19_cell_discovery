@@ -13,4 +13,5 @@ add_executable(group_19_cell_discovery
         src/erode.h
         src/cell_check.c
         src/cell_check.h
+        src/global_vars.h
 )
