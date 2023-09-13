@@ -11,6 +11,7 @@
 #include "src/erode.h"
 #include "src/cell_check.h"
 #include "src/global_vars.h"
+#include "src/add_squares.h"
 
 Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells
 int coord_index = 0;
@@ -32,7 +33,7 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNE
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGTH; ++y) {
             unsigned char gray = binary_image[x][y];
-            if (gray > 90) {
+            if (gray > 80) {
                 binary_image[x][y] = 255;
             } else {
                 binary_image[x][y] = 0;
@@ -137,10 +138,14 @@ int main(int argc, char **argv) {
 
     printf("The numbers of cells found is: %d\n",cells);
     printf("The coordinates are: \n");
-    printf("The coordinates are: \n");
     for (int i = 0; i < coord_index; ++i) {
         printf("Cell %d is at x: %d, y: %d\n", i + 1, coordinates[i].x, coordinates[i].y);
     }
+// After you've found all the cells and before you write the final image
+    add_squares(input_image, coordinates);
+
+// Write image to file
+    write_bitmap(input_image, argv[2]);
     printf("Done!\n");
     return 0;
 }

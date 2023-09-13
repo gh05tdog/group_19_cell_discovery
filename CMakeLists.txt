@@ -14,4 +14,6 @@ add_executable(group_19_cell_discovery
         src/cell_check.c
         src/cell_check.h
         src/global_vars.h
+        src/add_squares.c
+        src/add_squares.h
 )
