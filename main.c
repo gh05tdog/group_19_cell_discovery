@@ -108,9 +108,9 @@ int main(int argc, char **argv) {
     // Perform the erosion 10 times
     while(1) {
         ++i;
-        char str[24];
+        char str[32];
 
-        strcpy(str,"../eroded_image ");
+        strcpy(str,"../eroded_images/eroded_image ");
 
         char numStr[23];
 
