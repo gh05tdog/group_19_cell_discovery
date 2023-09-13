@@ -65,7 +65,7 @@ void cell_check (unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned cha
 
 
 
-    *cells += count;
-    printf("The count of cells is: %d",count);
+    int total = *cells += count;
+    printf("The count of cells is: %d",total);
     printf("\n");
 }
