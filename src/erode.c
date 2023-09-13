@@ -6,7 +6,7 @@
 #define BLACK 0
 #define WHITE 255
 
-void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGTH], unsigned char eroded[BMP_WIDTH][BMP_HEIGTH], int *any_pixel_eroded) {
+void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], unsigned char eroded[BMP_WIDTH][BMP_HEIGHT], int *any_pixel_eroded) {
     int structuring_element[3][3] = {
             {0, 1, 0},
             {1, 1, 1},
@@ -16,7 +16,7 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGTH], unsigned char ero
     *any_pixel_eroded = 0;
 
     for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGTH; ++y) {
+        for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char pixel = binary[x][y];
 
             if (pixel == BLACK) {
@@ -31,7 +31,7 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGTH], unsigned char ero
 
                         // Assume pixels outside the boundary are BLACK (0)
                         unsigned char neighbor = BLACK;
-                        if (newX >= 0 && newY >= 0 && newX < BMP_WIDTH && newY < BMP_HEIGTH) {
+                        if (newX >= 0 && newY >= 0 && newX < BMP_WIDTH && newY < BMP_HEIGHT) {
                             neighbor = binary[newX][newY];
                         }
 

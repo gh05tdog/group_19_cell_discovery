@@ -17,10 +17,10 @@ Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells
 int coord_index = 0;
 
 
-void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS],
-                           unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH]) {
+void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS],
+                           unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT]) {
     for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGTH; ++y) {
+        for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char red = rgb_image[x][y][0];
             unsigned char green = rgb_image[x][y][1];
             unsigned char blue = rgb_image[x][y][2];
@@ -31,7 +31,7 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNE
     }
 
     for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGTH; ++y) {
+        for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char gray = binary_image[x][y];
             if (gray > 85) {
                 binary_image[x][y] = 255;
@@ -42,10 +42,10 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNE
     }
 }
 
-void gray_to_rgb(unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH],
-                 unsigned char rgb_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], Coordinate coordinates[1000]){
+void gray_to_rgb(unsigned char gray_image[BMP_WIDTH][BMP_HEIGHT],
+                 unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS], Coordinate coordinates[1000]){
     for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGTH; ++y) {
+        for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char gray = gray_image[x][y];
             rgb_image[x][y][0] = gray;
             rgb_image[x][y][1] = gray;
@@ -76,11 +76,11 @@ void gray_to_rgb(unsigned char gray_image[BMP_WIDTH][BMP_HEIGTH],
 }
 
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
-unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
-unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
-unsigned char current_image[BMP_WIDTH][BMP_HEIGTH];
-unsigned char binary_image[BMP_WIDTH][BMP_HEIGTH];
-unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH];
+unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
+unsigned char output_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
+unsigned char current_image[BMP_WIDTH][BMP_HEIGHT];
+unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT];
+unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
 
 
 //Main function
