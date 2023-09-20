@@ -16,4 +16,6 @@ add_executable(group_19_cell_discovery
         src/global_vars.h
         src/add_squares.c
         src/add_squares.h
+        src/convert_to_binary.c
+        src/convert_to_binary.h
 )

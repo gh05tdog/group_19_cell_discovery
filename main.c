@@ -12,38 +12,82 @@
 #include "src/cell_check.h"
 #include "src/global_vars.h"
 #include "src/add_squares.h"
+#include "src/convert_to_binary.h"
 
 Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells
 int coord_index = 0;
 
 
-void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS],
-                           unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT]) {
-    for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGHT; ++y) {
-            unsigned char red = rgb_image[x][y][0];
-            unsigned char green = rgb_image[x][y][1];
-            unsigned char blue = rgb_image[x][y][2];
-            unsigned char gray = (red + green + blue) / 3;
+//void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS],
+//                           unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT]) {
+//    for (int x = 0; x < BMP_WIDTH; ++x) {
+//        for (int y = 0; y < BMP_HEIGHT; ++y) {
+//            unsigned char red = rgb_image[x][y][0];
+//            unsigned char green = rgb_image[x][y][1];
+//            unsigned char blue = rgb_image[x][y][2];
+//            unsigned char gray = (red + green + blue) / 3;
+//
+//            binary_image[x][y] = gray;
+//        }
+//    }
+//
+//    float sum = 0;
+//    float sumB = 0;
+//    int q1 = 0;
+//    int q2;
+//    float varMax = 0;
+//    int threshold = 0;
+//
+//    int histogram[256] = {0};
+//
+//// Calculate histogram
+//    for (int x = 0; x < BMP_WIDTH; ++x) {
+//        for (int y = 0; y < BMP_HEIGHT; ++y) {
+//            unsigned char gray = binary_image[x][y];
+//            histogram[gray]++;
+//        }
+//    }
+//
+//// Total number of pixels
+//    int total = BMP_WIDTH * BMP_HEIGHT;
+//
+//// Calculate sum of pixels
+//    for (int i = 0; i < 256; ++i) {
+//        sum += (float ) i * (float)histogram[i];
+//    }
+//
+//// Compute Otsu's threshold
+//    for (int i = 0; i < 256; ++i) {
+//        q1 += histogram[i];
+//        if (q1 == 0) continue;
+//        q2 = total - q1;
+//        if (q2 == 0) break;
+//        sumB += (float)(i * histogram[i]);
+//        float m1 = sumB / (float)q1;
+//        float m2 = (sum - sumB) / (float)q2;
+//        float varBetween = (float)q1 * (float)q2 * (m1 - m2) * (m1 - m2);
+//        if (varBetween > varMax) {
+//            varMax = varBetween;
+//            threshold = i;
+//        }
+//    }
+//    printf("the threshold is: %i \n", threshold);
+//
+//// Apply Otsu's threshold
+//
+//    for (int x = 0; x < BMP_WIDTH; ++x) {
+//        for (int y = 0; y < BMP_HEIGHT; ++y) {
+//            unsigned char gray = binary_image[x][y];
+//            if (gray >= threshold) {
+//                binary_image[x][y] = 255;
+//            } else {
+//                binary_image[x][y] = 0;
+//            }
+//        }
+//    }
+//}
 
-            binary_image[x][y] = gray;
-        }
-    }
-
-    for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGHT; ++y) {
-            unsigned char gray = binary_image[x][y];
-            if (gray > 85) {
-                binary_image[x][y] = 255;
-            } else {
-                binary_image[x][y] = 0;
-            }
-        }
-    }
-}
-
-void gray_to_rgb(unsigned char gray_image[BMP_WIDTH][BMP_HEIGHT],
-                 unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS], Coordinate coordinates[1000]){
+void gray_to_rgb(unsigned char gray_image[950][950], unsigned char rgb_image[950][950][3] ) {
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char gray = gray_image[x][y];
@@ -123,7 +167,7 @@ int main(int argc, char **argv) {
         binary_erode(eroded_image, current_image, &is_eroded);
         cell_check(eroded_image,current_image, &cells);
 
-        gray_to_rgb(eroded_image, output_image, coordinates);
+        gray_to_rgb(eroded_image, output_image);
         write_bitmap(output_image, str);
 
         // Copy the current_image image back into eroded_image for the next round
