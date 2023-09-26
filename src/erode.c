@@ -8,12 +8,10 @@
 
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], unsigned char eroded[BMP_WIDTH][BMP_HEIGHT],
                   int *any_pixel_eroded) {
-    int structuring_element[5][5] = {
-            {0,1,1,1,0},
-            {1, 1,1, 1,1},
-            {1,1, 1, 1,1},
-            {1,1, 1,1,1},
-            {0,1,1,1,0}
+    int structuring_element[3][3] = {
+            {0,1,1},
+            {1, 1,1},
+            {1,1, 1},
     };
 
     *any_pixel_eroded = 0;
