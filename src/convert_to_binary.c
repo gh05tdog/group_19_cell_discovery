@@ -20,7 +20,6 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNE
     int q2;
     float varMax = 0;
     int threshold = 0;
-
     int histogram[256] = {0};
 
 // Calculate histogram
@@ -36,7 +35,7 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNE
 
 // Calculate sum of pixels
     for (int i = 0; i < 256; ++i) {
-        sum += (float ) i * (float)histogram[i];
+        sum += (float) i * (float) histogram[i];
     }
 
 // Compute Otsu's threshold
@@ -45,10 +44,10 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNE
         if (q1 == 0) continue;
         q2 = total - q1;
         if (q2 == 0) break;
-        sumB += (float)(i * histogram[i]);
-        float m1 = sumB / (float)q1;
-        float m2 = (sum - sumB) / (float)q2;
-        float varBetween = (float)q1 * (float)q2 * (m1 - m2) * (m1 - m2);
+        sumB += (float) (i * histogram[i]);
+        float m1 = sumB / (float) q1;
+        float m2 = (sum - sumB) / (float) q2;
+        float varBetween = (float) q1 * (float) q2 * (m1 - m2) * (m1 - m2);
         if (varBetween > varMax) {
             varMax = varBetween;
             threshold = i;

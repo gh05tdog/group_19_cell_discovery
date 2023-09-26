@@ -27,24 +27,24 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                     unsigned char boundary3;
                     unsigned char boundary4;
 
-                    if(x + i <= 0){
+                    if (x + i <= 0) {
                         boundary1 = eroded_image[0][y + 7];
                         boundary2 = eroded_image[0][y - 7];
-                    }else if (x + i >= BMP_WIDTH - 1){
+                    } else if (x + i >= BMP_WIDTH - 1) {
                         boundary1 = eroded_image[BMP_WIDTH - 1][y + 7];
                         boundary2 = eroded_image[BMP_WIDTH - 1][y - 7];
-                    }else{
+                    } else {
                         boundary1 = eroded_image[x + i][y + 7];
                         boundary2 = eroded_image[x + i][y - 7];
                     }
 
-                    if(y + i <= 0){
+                    if (y + i <= 0) {
                         boundary3 = eroded_image[x - 7][0];
                         boundary4 = eroded_image[x + 7][0];
-                    }else if(y + i >= BMP_HEIGHT - 1) {
+                    } else if (y + i >= BMP_HEIGHT - 1) {
                         boundary3 = eroded_image[x - 7][BMP_HEIGHT - 1];
                         boundary4 = eroded_image[x + 7][BMP_HEIGHT - 1];
-                    }else{
+                    } else {
                         boundary3 = eroded_image[x - 7][y + i];
                         boundary4 = eroded_image[x + 7][y + i];
                     }
@@ -58,11 +58,8 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                         break;
                     }
 
-
-
                     i--;
                 }
-
 //____________________________________________________________________________________________
 
                 if (is_clear == 1) {
@@ -83,7 +80,6 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                     break;
                 }
             }
-
 
 //____________________________________________________________________________________
             y++;
