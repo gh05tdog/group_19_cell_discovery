@@ -27,6 +27,7 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                     unsigned char boundary3;
                     unsigned char boundary4;
 
+<<<<<<< HEAD
                     if(x + i <= 0){
                         boundary1 = eroded_image[0][y + 5];
                         boundary2 = eroded_image[0][y - 5];
@@ -47,6 +48,28 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                     }else{
                         boundary3 = eroded_image[x - 5][y + i];
                         boundary4 = eroded_image[x + 5][y + i];
+=======
+                    if (x + i <= 0) {
+                        boundary1 = eroded_image[0][y + 7];
+                        boundary2 = eroded_image[0][y - 7];
+                    } else if (x + i >= BMP_WIDTH - 1) {
+                        boundary1 = eroded_image[BMP_WIDTH - 1][y + 7];
+                        boundary2 = eroded_image[BMP_WIDTH - 1][y - 7];
+                    } else {
+                        boundary1 = eroded_image[x + i][y + 7];
+                        boundary2 = eroded_image[x + i][y - 7];
+                    }
+
+                    if (y + i <= 0) {
+                        boundary3 = eroded_image[x - 7][0];
+                        boundary4 = eroded_image[x + 7][0];
+                    } else if (y + i >= BMP_HEIGHT - 1) {
+                        boundary3 = eroded_image[x - 7][BMP_HEIGHT - 1];
+                        boundary4 = eroded_image[x + 7][BMP_HEIGHT - 1];
+                    } else {
+                        boundary3 = eroded_image[x - 7][y + i];
+                        boundary4 = eroded_image[x + 7][y + i];
+>>>>>>> 1c3d27364da88182c6301f6f6e468369a4a84d1c
                     }
 
                     if (boundary3 == 255 || boundary4 == 255) {
@@ -58,11 +81,8 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                         break;
                     }
 
-
-
                     i--;
                 }
-
 //____________________________________________________________________________________________
 
                 if (is_clear == 1) {
@@ -83,7 +103,6 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                     break;
                 }
             }
-
 
 //____________________________________________________________________________________
             y++;
