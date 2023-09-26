@@ -1,7 +1,3 @@
-//
-// Created by marti on 12/09/2023.
-//
-
 #include "cell_check.h"
 #include <stdio.h>
 #include "global_vars.h"

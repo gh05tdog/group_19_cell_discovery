@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <intrin.h>
+#include <time.h>
+
 #include "cbmp.h"
 #include "src/erode.h"
 #include "src/cell_check.h"
@@ -58,6 +60,11 @@ unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
 
 //Main function
 int main(int argc, char **argv) {
+    clock_t start, end;
+    double cpu_time_used;
+
+    start = clock();
+
     int cells = 0;
     int is_eroded;
     //argc counts how may arguments are passed
@@ -115,6 +122,11 @@ int main(int argc, char **argv) {
 
 // Write image to file
     write_bitmap(input_image, argv[2]);
+    end = clock();
+    cpu_time_used = end - start;
+    printf("Total time: %f ms\n", cpu_time_used * 1000.0 /
+                                  CLOCKS_PER_SEC);
+
     printf("Done!\n");
     return 0;
 }
