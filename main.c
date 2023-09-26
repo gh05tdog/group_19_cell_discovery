@@ -19,43 +19,12 @@
 Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells
 int coord_index = 0;
 
-void gray_to_rgb(unsigned char gray_image[950][950], unsigned char rgb_image[950][950][3] ) {
-    for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGHT; ++y) {
-            unsigned char gray = gray_image[x][y];
-            rgb_image[x][y][0] = gray;
-            rgb_image[x][y][1] = gray;
-            rgb_image[x][y][2] = gray;
-        }
-    }
-    //Add a red square around the cells
-    for (int i = 0; i < coord_index; ++i) {
-        int x = coordinates[i].x;
-        int y = coordinates[i].y;
-
-        // Add a thicker and bigger red cross around the cell
-        for (int j = -12; j <= 12; ++j) {
-            // Check if the pixel is within the image boundaries
-            if (x + j >= 0 && x + j < BMP_WIDTH && y >= 0 && y < BMP_HEIGHT) {
-                rgb_image[x + j][y][0] = 255;
-                rgb_image[x + j][y][1] = 0;
-                rgb_image[x + j][y][2] = 0;
-            }
-            if (x >= 0 && x < BMP_WIDTH && y + j >= 0 && y + j < BMP_HEIGHT) {
-                rgb_image[x][y + j][0] = 255;
-                rgb_image[x][y + j][1] = 0;
-                rgb_image[x][y + j][2] = 0;
-            }
-        }
-    }
-}
-
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
 unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
-unsigned char output_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char current_image[BMP_WIDTH][BMP_HEIGHT];
 unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
+
 
 
 //Main function

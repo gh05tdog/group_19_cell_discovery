@@ -68,4 +68,6 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNE
             }
         }
     }
+    
+
 }
