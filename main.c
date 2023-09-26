@@ -80,32 +80,33 @@ int main(int argc, char **argv) {
     // Load image from file
     read_bitmap(argv[1], input_image);
 
-    // Convert to binary (assuming this function populates current_image)
     convert_to_binary(input_image, binary_image);
 
-
-    binary_erode(binary_image, eroded_image, &is_eroded);
+    memcpy(eroded_image, binary_image, sizeof(binary_image));
     int i = 0;
+
     // Perform the erosion 10 times
     while(1) {
+
         ++i;
-        char str[32];
+        //char str[32];
 
-        strcpy(str,"../eroded_images/eroded_image ");
+        //strcpy(str,"../eroded_images/eroded_image ");
 
-        char numStr[23];
+        //char numStr[23];
 
-        snprintf(numStr,sizeof(numStr),"%d",i);
-        strcat(str,numStr);
+        //snprintf(numStr,sizeof(numStr),"%d",i);
+        //strcat(str,numStr);
 
-        strcat(str,".bmp");
-
+        //strcat(str,".bmp");
 
         binary_erode(eroded_image, current_image, &is_eroded);
         cell_check(eroded_image,current_image, &cells);
 
-        gray_to_rgb(eroded_image, output_image);
-        write_bitmap(output_image, str);
+
+        //Uncomment to enable debugging of erosion images
+        //gray_to_rgb(eroded_image, output_image);
+        //write_bitmap(output_image, str);
 
         // Copy the current_image image back into eroded_image for the next round
         memcpy(eroded_image, current_image, sizeof(current_image));
@@ -113,6 +114,7 @@ int main(int argc, char **argv) {
         if(is_eroded == 0) {
             break;
         }
+
     }
 
 
