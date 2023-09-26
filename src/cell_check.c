@@ -16,42 +16,42 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
         while (y < BMP_HEIGHT) {
 
             if (eroded_image[x][y] == 255) {
-                int i = 6;
+                int i = 4;
                 int is_clear = 1;
 
 
 //___________________________________________________________________________________________
-                while (i >= -6) {
+                while (i >= -4) {
                     unsigned char boundary1;
                     unsigned char boundary2;
                     unsigned char boundary3;
                     unsigned char boundary4;
 
                     if(x + i <= 0){
-                        boundary1 = eroded_image[0][y + 7];
-                        boundary2 = eroded_image[0][y - 7];
+                        boundary1 = eroded_image[0][y + 5];
+                        boundary2 = eroded_image[0][y - 5];
                     }else if (x + i >= BMP_WIDTH - 1){
-                        boundary1 = eroded_image[BMP_WIDTH - 1][y + 7];
-                        boundary2 = eroded_image[BMP_WIDTH - 1][y - 7];
+                        boundary1 = eroded_image[BMP_WIDTH - 1][y + 5];
+                        boundary2 = eroded_image[BMP_WIDTH - 1][y - 5];
                     }else{
-                        boundary1 = eroded_image[x + i][y + 7];
-                        boundary2 = eroded_image[x + i][y - 7];
+                        boundary1 = eroded_image[x + i][y + 5];
+                        boundary2 = eroded_image[x + i][y - 5];
                     }
 
                     if(y + i <= 0){
-                        boundary3 = eroded_image[x - 7][0];
-                        boundary4 = eroded_image[x + 7][0];
+                        boundary3 = eroded_image[x - 5][0];
+                        boundary4 = eroded_image[x + 5][0];
                     }else if(y + i >= BMP_HEIGHT - 1) {
-                        boundary3 = eroded_image[x - 7][BMP_HEIGHT - 1];
-                        boundary4 = eroded_image[x + 7][BMP_HEIGHT - 1];
+                        boundary3 = eroded_image[x - 5][BMP_HEIGHT - 1];
+                        boundary4 = eroded_image[x + 5][BMP_HEIGHT - 1];
                     }else{
-                        boundary3 = eroded_image[x - 7][y + i];
-                        boundary4 = eroded_image[x + 7][y + i];
+                        boundary3 = eroded_image[x - 5][y + i];
+                        boundary4 = eroded_image[x + 5][y + i];
                     }
 
                     if (boundary3 == 255 || boundary4 == 255) {
                         is_clear = 0;
-                        y = y + 6 + i;
+                        y = y + 4 + i;
                         break;
                     } else if (boundary1 == 255 || boundary2 == 255) {
                         is_clear = 0;

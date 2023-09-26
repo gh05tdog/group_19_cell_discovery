@@ -89,24 +89,24 @@ int main(int argc, char **argv) {
     while(1) {
 
         ++i;
-        //char str[32];
+        char str[32];
 
-        //strcpy(str,"../eroded_images/eroded_image ");
+        strcpy(str,"../eroded_images/eroded_image ");
 
-        //char numStr[23];
+        char numStr[23];
 
-        //snprintf(numStr,sizeof(numStr),"%d",i);
-        //strcat(str,numStr);
+        snprintf(numStr,sizeof(numStr),"%d",i);
+        strcat(str,numStr);
 
-        //strcat(str,".bmp");
+        strcat(str,".bmp");
 
         binary_erode(eroded_image, current_image, &is_eroded);
         cell_check(eroded_image,current_image, &cells);
 
 
         //Uncomment to enable debugging of erosion images
-        //gray_to_rgb(eroded_image, output_image);
-        //write_bitmap(output_image, str);
+        gray_to_rgb(eroded_image, output_image);
+        write_bitmap(output_image, str);
 
         // Copy the current_image image back into eroded_image for the next round
         memcpy(eroded_image, current_image, sizeof(current_image));
