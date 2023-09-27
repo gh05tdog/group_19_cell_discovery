@@ -26,43 +26,12 @@ unsigned char current_image[BMP_WIDTH][BMP_HEIGHT];
 unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
 
-void gray_to_rgb(unsigned char gray_image[950][950], unsigned char rgb_image[950][950][3] ) {
-    for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGHT; ++y) {
-            unsigned char gray = gray_image[x][y];
-            rgb_image[x][y][0] = gray;
-            rgb_image[x][y][1] = gray;
-            rgb_image[x][y][2] = gray;
-        }
-    }
-    //Add a red square around the cells
-    for (int i = 0; i < coord_index; ++i) {
-        int x = coordinates[i].x;
-        int y = coordinates[i].y;
-
-        // Add a thicker and bigger red cross around the cell
-        for (int j = -12; j <= 12; ++j) {
-            // Check if the pixel is within the image boundaries
-            if (x + j >= 0 && x + j < BMP_WIDTH && y >= 0 && y < BMP_HEIGHT) {
-                rgb_image[x + j][y][0] = 255;
-                rgb_image[x + j][y][1] = 0;
-                rgb_image[x + j][y][2] = 0;
-            }
-            if (x >= 0 && x < BMP_WIDTH && y + j >= 0 && y + j < BMP_HEIGHT) {
-                rgb_image[x][y + j][0] = 255;
-                rgb_image[x][y + j][1] = 0;
-                rgb_image[x][y + j][2] = 0;
-            }
-        }
-    }
-}
-
 
 //Main function
 int main(int argc, char **argv) {
     clock_t start, end;
     double cpu_time_used;
-
+// Start timer
     start = clock();
 
     int cells = 0;
@@ -81,7 +50,6 @@ int main(int argc, char **argv) {
     memcpy(eroded_image, binary_image, sizeof(binary_image));
     int i = 0;
 
-    // Perform the erosion 10 times
     while (1) {
 
         ++i;
@@ -115,13 +83,15 @@ int main(int argc, char **argv) {
 
 
     printf("The numbers of cells found is: %d\n", cells);
-// After you've found all the cells and before you write the final image
+    // Add squares to the original image
     add_squares(input_image, coordinates);
 
-// Write image to file
     write_bitmap(input_image, argv[2]);
+    // Stop timer
     end = clock();
+    // Calculate time elapsed
     cpu_time_used = end - start;
+    // Print time elapsed
     printf("Total time: %f ms\n", cpu_time_used * 1000.0 /
                                   CLOCKS_PER_SEC);
 
