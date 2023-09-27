@@ -8,6 +8,8 @@
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT],
                   int *any_pixel_eroded) {
     int* eroded_line = (int*)malloc(BMP_WIDTH*BMP_HEIGHT * sizeof(int));
+
+
     int structuring_element[5][5] = {
             {0, 1, 1, 1, 0},
             {1, 1, 1, 1, 1},
