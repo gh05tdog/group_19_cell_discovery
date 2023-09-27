@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     clock_t start, end;
     double cpu_time_used;
 // Start timer
-    start = clock();
+
 
     int cells = 0;
     int is_eroded;
@@ -55,8 +55,9 @@ int main(int argc, char **argv) {
     convert_to_binary(input_image, eroded_image);
 
     int i = 0;
-
+    start = clock();
     while (1) {
+
 
         ++i;
 
@@ -89,7 +90,7 @@ int main(int argc, char **argv) {
         }
 
     }
-    //Q: T
+    end = clock();
 
     printf("The numbers of cells found is: %d\n", cells);
     // Add squares to the original image
@@ -100,7 +101,7 @@ int main(int argc, char **argv) {
 
     write_bitmap(input_image, argv[2]);
     // Stop timer
-    end = clock();
+
     // Calculate time elapsed
     cpu_time_used = end - start;
     // Print time elapsed
