@@ -22,21 +22,17 @@ int coord_index = 0;
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
 unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char output_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
-unsigned char current_image[BMP_WIDTH][BMP_HEIGHT];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
 int PEI = 0;
 
 
-//Main function
+
 int main(int argc, char **argv) {
     clock_t start, end;
     double cpu_time_used;
-// Start timer
-    start = clock();
 
     int cells = 0;
-    int is_eroded;
-
+    const int MAX_ITERATIONS = 10;
     // Checking that 2 or 3 arguments are passed
     if (argc < 3 || argc > 4) {
         fprintf(stderr, "Usage: %s <input file path> <output file path> [-PEI]\n", argv[0]);
@@ -54,62 +50,45 @@ int main(int argc, char **argv) {
 
     convert_to_binary(input_image, eroded_image);
 
-    int i = 0;
-
-    while (1) {
-
-        ++i;
-
-        binary_erode(eroded_image, &is_eroded);
+    start = clock();
+    for (int i = 0; i < MAX_ITERATIONS; i++) {
+        binary_erode(eroded_image);
         cell_check(eroded_image, &cells);
 
-
-        //Uncomment to enable debugging of erosion images
+        // Uncomment to enable debugging of erosion images
         if (PEI == 1) {
             char str[32];
-
             strcpy(str, "../eroded_images/eroded_image ");
-
             char numStr[23];
-
             snprintf(numStr, sizeof(numStr), "%d", i);
             strcat(str, numStr);
-
             strcat(str, ".bmp");
             gray_to_rgb(eroded_image, output_image);
             write_bitmap(output_image, str);
         }
-
-            // Copy the current_image image back into eroded_image for the next round
-            memcpy(eroded_image, current_image, sizeof(current_image));
-
-
-        if (is_eroded == 0) {
-            break;
-        }
-
     }
-    //Q: T
+    end = clock();
 
     printf("The numbers of cells found is: %d\n", cells);
+
+
+
+    for(int i = 0; i < coord_index; i++) {
+        printf("Cell %d: x = %d, y = %d\n", i+1, coordinates[i].x, coordinates[i].y);
+    }
+    read_bitmap(argv[1], input_image);
     // Add squares to the original image
-
-
+    add_squares(input_image, coordinates);
     write_bitmap(input_image, argv[2]);
-    // Stop timer
-    end = clock();
+
     // Calculate time elapsed
-    cpu_time_used = end - start;
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+
     // Print time elapsed
-    printf("Total time: %f ms\n", cpu_time_used * 1000.0 /
-                                  CLOCKS_PER_SEC);
+    printf("Total time: %f ms\n", cpu_time_used * 1000.0);
 
     printf("Done!\n");
 
-    add_squares(input_image, coordinates);
-    for(int i = 0; i< coord_index; i++){
-        printf("Cell %d: x = %d, y = %d\n", i+1, coordinates[i].x, coordinates[i].y);
-    }
     return 0;
 }
 
