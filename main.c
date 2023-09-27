@@ -23,7 +23,6 @@ int coord_index = 0;
 unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char output_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char current_image[BMP_WIDTH][BMP_HEIGHT];
-unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
 
 
@@ -45,9 +44,8 @@ int main(int argc, char **argv) {
     // Load image from file
     read_bitmap(argv[1], input_image);
 
-    convert_to_binary(input_image, binary_image);
+    convert_to_binary(input_image, eroded_image);
 
-    memcpy(eroded_image, binary_image, sizeof(binary_image));
     int i = 0;
 
     while (1) {
