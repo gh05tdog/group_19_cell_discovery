@@ -24,6 +24,7 @@ unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char output_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char current_image[BMP_WIDTH][BMP_HEIGHT];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
+int PEI = 0;
 
 
 //Main function
@@ -36,11 +37,18 @@ int main(int argc, char **argv) {
     int cells = 0;
     int is_eroded;
 
-    //Checking that 2 arguments are passed
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <output file path> <output file path>\n", argv[0]);
+    // Checking that 2 or 3 arguments are passed
+    if (argc < 3 || argc > 4) {
+        fprintf(stderr, "Usage: %s <input file path> <output file path> [-PEI]\n", argv[0]);
         exit(1);
     }
+
+    // Check if PEI mode is enabled (Print Eroded Images)
+    if (argc == 4 && strcmp(argv[3], "-PEI") == 0) {
+        printf("PEI mode enabled\n");
+        PEI = 1;
+    }
+
     // Load image from file
     read_bitmap(argv[1], input_image);
 
@@ -51,27 +59,31 @@ int main(int argc, char **argv) {
     while (1) {
 
         ++i;
-        char str[32];
-
-        strcpy(str,"../eroded_images/eroded_image ");
-
-        char numStr[3];
-
-        snprintf(numStr,sizeof(numStr),"%d",i);
-        strcat(str,numStr);
-
-        strcat(str,".bmp");
+        
 
         binary_erode(eroded_image, current_image, &is_eroded);
         cell_check(eroded_image, current_image, &cells);
 
 
         //Uncomment to enable debugging of erosion images
-        gray_to_rgb(eroded_image, output_image);
-        write_bitmap(output_image, str);
+        if (PEI == 1) {
+            char str[32];
 
-        // Copy the current_image image back into eroded_image for the next round
-        memcpy(eroded_image, current_image, sizeof(current_image));
+            strcpy(str, "../eroded_images/eroded_image ");
+
+            char numStr[23];
+
+            snprintf(numStr, sizeof(numStr), "%d", i);
+            strcat(str, numStr);
+
+            strcat(str, ".bmp");
+            gray_to_rgb(eroded_image, output_image);
+            write_bitmap(output_image, str);
+        }
+
+            // Copy the current_image image back into eroded_image for the next round
+            memcpy(eroded_image, current_image, sizeof(current_image));
+
 
         if (is_eroded == 0) {
             break;
