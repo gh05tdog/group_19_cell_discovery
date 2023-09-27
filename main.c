@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     while (1) {
 
         ++i;
-        
+
 
         binary_erode(eroded_image, current_image, &is_eroded);
         cell_check(eroded_image, current_image, &cells);
