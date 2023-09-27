@@ -1,13 +1,12 @@
-#include <stdlib.h>
 #include "cbmp.h"
 #include "erode.h"
-
+#include <stdint.h>
 
 #define BLACK 0
 #define WHITE 255
 
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT]) {
-    unsigned char temp[BMP_WIDTH][BMP_HEIGHT];
+    uint8_t eroded_line [(BMP_WIDTH * BMP_HEIGHT+7)/8];
     int structuring_element[5][5] = {
             {0, 1, 1, 1, 0},
             {1, 1, 1, 1, 1},
@@ -17,18 +16,18 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT]) {
     };
 
     // Initialize temp with the same values as binary
-    for (int x = 0; x < BMP_WIDTH; ++x) {
+  /*  for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
             temp[x][y] = binary[x][y];
         }
-    }
-
+    } */
+ int k = 0;
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char pixel = binary[x][y];
 
             if (pixel == BLACK) {
-                temp[x][y] = BLACK;
+                eroded_line[k++] = BLACK;
             } else {
                 int should_erode = 1;
 
@@ -49,15 +48,15 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT]) {
                     }
                 }
 
-                temp[x][y] = should_erode ? WHITE : BLACK;
+                eroded_line[k++] = should_erode ? WHITE : BLACK;
             }
         }
     }
-
+    int q = 0;
     // Copy the temp image back into binary
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
-            binary[x][y] = temp[x][y];
+            binary[x][y] = eroded_line[q++];
         }
     }
 }
