@@ -52,7 +52,8 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT],
 
         }
     }
-    // how do I turn the eroded_line back into a 2d array?
+    
+
     k = 0;
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
