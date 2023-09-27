@@ -78,11 +78,14 @@ int main(int argc, char **argv) {
         }
 
     }
-
+    //Q: T
 
     printf("The numbers of cells found is: %d\n", cells);
     // Add squares to the original image
     add_squares(input_image, coordinates);
+    for(int i = 0; i< coord_index; i++){
+        printf("Cell %d: x = %d, y = %d\n", i+1, coordinates[i].x, coordinates[i].y);
+    }
 
     write_bitmap(input_image, argv[2]);
     // Stop timer
