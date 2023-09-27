@@ -60,9 +60,8 @@ int main(int argc, char **argv) {
 
         ++i;
 
-
-        binary_erode(eroded_image, current_image, &is_eroded);
-        cell_check(eroded_image, current_image, &cells);
+        binary_erode(eroded_image, &is_eroded);
+        cell_check(eroded_image, &cells);
 
 
         //Uncomment to enable debugging of erosion images

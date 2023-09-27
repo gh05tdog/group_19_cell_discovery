@@ -3,7 +3,7 @@
 #include "global_vars.h"
 
 
-void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char checked_image[BMP_WIDTH][BMP_HEIGHT],
+void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT],
                 int *cells) {
 
     int x = 0;
@@ -15,7 +15,7 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
 
         while (y < BMP_HEIGHT) {
 
-            if (eroded_image[x][y] == 255) {
+            if (eroded_image[x][y] > 0) {
                 int i = 6;
                 int is_clear = 1;
 
@@ -75,7 +75,6 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], unsigned char
                         for (int q = y - 6; q <= y + 6; q++) {
 
                             eroded_image[p][q] = 0;
-                            checked_image[p][q] = 0;
                         }
 
                     }
