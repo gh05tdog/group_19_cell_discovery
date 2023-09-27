@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "cbmp.h"
 #include "erode.h"
 
@@ -6,6 +7,7 @@
 
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], unsigned char eroded[BMP_WIDTH][BMP_HEIGHT],
                   int *any_pixel_eroded) {
+    int* eroded_line = (int*)malloc(BMP_WIDTH*BMP_HEIGHT * sizeof(int));
     int structuring_element[5][5] = {
             {0, 1, 1, 1, 0},
             {1, 1, 1, 1, 1},
@@ -14,13 +16,13 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], unsigned char ero
             {0, 1, 1, 1, 0}
     };
     *any_pixel_eroded = 0;
-
+    int k = 0;
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char pixel = binary[x][y];
 
             if (pixel == BLACK) {
-                eroded[x][y] = BLACK;
+                eroded_line[k++] = BLACK;
             } else {
                 int should_erode = 1;
 
@@ -41,12 +43,24 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], unsigned char ero
                     }
                 }
 
-                eroded[x][y] = should_erode ? WHITE : BLACK;
+                eroded_line[k++] = should_erode ? WHITE : BLACK;
 
                 if (should_erode == 0) {
                     *any_pixel_eroded = 1;
                 }
             }
+            
         }
     }
+    // how do i turn the eroded_line back into a 2d array?
+    k = 0;
+    for (int x = 0; x < BMP_WIDTH; ++x) {
+        for (int y = 0; y < BMP_HEIGHT; ++y) {
+            eroded[x][y] = eroded_line[k];
+            k++;
+        }
+    }
+    free(eroded_line);
+
 }
+

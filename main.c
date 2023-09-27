@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
 
         strcpy(str,"../eroded_images/eroded_image ");
 
-        char numStr[23];
+        char numStr[3];
 
         snprintf(numStr,sizeof(numStr),"%d",i);
         strcat(str,numStr);
@@ -82,10 +82,7 @@ int main(int argc, char **argv) {
 
     printf("The numbers of cells found is: %d\n", cells);
     // Add squares to the original image
-    add_squares(input_image, coordinates);
-    for(int i = 0; i< coord_index; i++){
-        printf("Cell %d: x = %d, y = %d\n", i+1, coordinates[i].x, coordinates[i].y);
-    }
+
 
     write_bitmap(input_image, argv[2]);
     // Stop timer
@@ -97,6 +94,11 @@ int main(int argc, char **argv) {
                                   CLOCKS_PER_SEC);
 
     printf("Done!\n");
+
+    add_squares(input_image, coordinates);
+    for(int i = 0; i< coord_index; i++){
+        printf("Cell %d: x = %d, y = %d\n", i+1, coordinates[i].x, coordinates[i].y);
+    }
     return 0;
 }
 
