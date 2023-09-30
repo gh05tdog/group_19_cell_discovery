@@ -6,8 +6,9 @@
 #define BLACK 0
 #define WHITE 255
 
-void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT]) {
+void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int* did_erode) {
     unsigned char temp[BMP_WIDTH][BMP_HEIGHT];
+    *did_erode = 0;
     int structuring_element[5][5] = {
             {0, 1, 1, 1, 0},
             {1, 1, 1, 1, 1},
@@ -57,6 +58,10 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT]) {
     // Copy the temp image back into binary
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
+            if (binary [x][y] != temp[x][y]) {
+                *did_erode = 1;
+
+            }
             binary[x][y] = temp[x][y];
         }
     }

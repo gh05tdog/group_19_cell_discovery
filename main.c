@@ -31,6 +31,8 @@ int main(int argc, char **argv) {
     clock_t start, end;
     double cpu_time_used;
 
+
+
     int cells = 0;
     const int MAX_ITERATIONS = 10;
     // Checking that 2 or 3 arguments are passed
@@ -51,9 +53,13 @@ int main(int argc, char **argv) {
     convert_to_binary(input_image, eroded_image);
 
     start = clock();
-    for (int i = 0; i < MAX_ITERATIONS; i++) {
-        binary_erode(eroded_image);
+    int i = 0;
+    int did_erode = 1;
+
+    while (did_erode != 0) {
+        binary_erode(eroded_image,&did_erode);
         cell_check(eroded_image, &cells);
+        i++;
 
         // Uncomment to enable debugging of erosion images
         if (PEI == 1) {
