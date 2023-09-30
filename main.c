@@ -55,6 +55,10 @@ int main(int argc, char **argv) {
         binary_erode(eroded_image);
         cell_check(eroded_image, &cells);
 
+        size_t array_size = sizeof(eroded_image);
+
+        printf("Memory usage of the array: %zu bytes\n", array_size);
+
         // Uncomment to enable debugging of erosion images
         if (PEI == 1) {
             char str[32];
