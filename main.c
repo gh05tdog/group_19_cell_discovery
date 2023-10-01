@@ -1,12 +1,5 @@
-//To compile (linux/mac): gcc cbmp.c main.c -o main.out -std=c99
-//To run (linux/mac): ./main.out example.bmp example_inv.bmp
-
-//To compile (win): gcc cbmp.c main.c -o main.exe -std=c99
-//To run (win): main.exe example.bmp example_inv.bmp
-
 #include <stdlib.h>
 #include <stdio.h>
-#include <intrin.h>
 #include <time.h>
 
 #include "cbmp.h"
@@ -24,25 +17,16 @@ unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
 int PEI = 0;
 
-//hmmm
 
 int main(int argc, char **argv) {
     clock_t start, end;
     double cpu_time_used;
 
-
-
     int cells = 0;
 
-    if (argc < 3 || argc > 4) {
-        fprintf(stderr, "Usage: %s <input file path> <output file path> [-PEI]\n", argv[0]);
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s <input file path> <output file path> \n", argv[0]);
         exit(1);
-    }
-
-    // Check if PEI mode is enabled (Print Eroded Images)
-    if (argc == 4 && strcmp(argv[3], "-PEI") == 0) {
-        printf("PEI mode enabled\n");
-        PEI = 1;
     }
 
     // Load image from file
@@ -50,39 +34,23 @@ int main(int argc, char **argv) {
 
     convert_to_binary(input_image, eroded_image);
 
+    //Start the clock
     start = clock();
-    int i = 0;
+
     int did_erode = 1;
 
     while (did_erode != 0) {
-        binary_erode(eroded_image,&did_erode);
+        binary_erode(eroded_image, &did_erode);
         cell_check(eroded_image, &cells);
-        i++;
-
-        size_t array_size = sizeof(eroded_image);
-
-  //      printf("Memory usage of the array: %zu bytes\n", array_size);
-
-        // Uncomment to enable debugging of erosion images
-        if (PEI == 1) {
-            char str[32];
-            strcpy(str, "../eroded_images/eroded_image ");
-            char numStr[23];
-            snprintf(numStr, sizeof(numStr), "%d", i);
-            strcat(str, numStr);
-            strcat(str, ".bmp");
-            gray_to_rgb(eroded_image, input_image);
-            write_bitmap(input_image, str);
-        }
     }
+
     end = clock();
 
     printf("The numbers of cells found is: %d\n", cells);
 
 
-
-    for(int i = 0; i < coord_index; i++) {
-        printf("Cell %d: x = %d, y = %d\n", i+1, coordinates[i].x, coordinates[i].y);
+    for (int number = 0; number < coord_index; number++) {
+        printf("Cell %d: x = %d, y = %d\n", number + 1, coordinates[number].x, coordinates[number].y);
     }
     read_bitmap(argv[1], input_image);
     // Add squares to the original image

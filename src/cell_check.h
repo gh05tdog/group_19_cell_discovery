@@ -3,6 +3,6 @@
 
 #include "cbmp.h"
 
-void cell_check (unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], int *cell_count);
+void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], int *cell_count);
 
 #endif //CHECK_H
