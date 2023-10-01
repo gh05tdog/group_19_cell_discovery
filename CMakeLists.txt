@@ -18,4 +18,6 @@ add_executable(group_19_cell_discovery
         src/add_squares.h
         src/convert_to_binary.c
         src/convert_to_binary.h
+        src/cluster_find.c
+        src/cluster_find.h
 )

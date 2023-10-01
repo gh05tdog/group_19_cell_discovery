@@ -1,5 +1,12 @@
+//To compile (linux/mac): gcc cbmp.c main.c -o main.out -std=c99
+//To run (linux/mac): ./main.out example.bmp example_inv.bmp
+
+//To compile (win): gcc cbmp.c main.c -o main.exe -std=c99
+//To run (win): main.exe example.bmp example_inv.bmp
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <intrin.h>
 #include <time.h>
 
 #include "cbmp.h"
@@ -8,49 +15,68 @@
 #include "src/global_vars.h"
 #include "src/add_squares.h"
 #include "src/convert_to_binary.h"
+#include "src/cluster_find.h"
 
-Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells
+Coordinate coordinates[5000]; // Assuming a maximum of 1000 cells
 int coord_index = 0;
 
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
 unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
-
+unsigned char cluster_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
+int clusterCount = 0;
+Cluster clusters[MAX_CLUSTERS];
+Centroid centroids[MAX_CLUSTERS];
+Circumference circs[MAX_CLUSTERS];
 
 
 int main(int argc, char **argv) {
     clock_t start, end;
     double cpu_time_used;
 
+
     int cells = 0;
 
-    if (argc < 3) {
-        fprintf(stderr, "Usage: %s <input file path> <output file path> \n", argv[0]);
+    if (argc < 3 || argc > 4) {
+        fprintf(stderr, "Usage: %s <input file path> <output file path> [-PEI]\n", argv[0]);
         exit(1);
     }
 
+
     // Load image from file
     read_bitmap(argv[1], input_image);
-
     convert_to_binary(input_image, eroded_image);
 
-    //Start the clock
-    start = clock();
+    find_cell_clusters(eroded_image);
 
+    read_bitmap(argv[1], cluster_image);
+
+    color_clusters_green(cluster_image);
+
+    find_centroid();
+    color_centroid_blue(cluster_image);
+
+    find_circumference_of_clumps(eroded_image);
+
+    color_circumference_red(cluster_image);
+    write_bitmap(cluster_image, "../circumference_image.bmp");
+
+    start = clock();
+    int i = 0;
     int did_erode = 1;
 
     while (did_erode != 0) {
-        binary_erode(eroded_image, &did_erode);
+        binary_erode(eroded_image,&did_erode);
         cell_check(eroded_image, &cells);
+        i++;
     }
-
     end = clock();
 
     printf("The numbers of cells found is: %d\n", cells);
 
 
-    for (int number = 0; number < coord_index; number++) {
-        printf("Cell %d: x = %d, y = %d\n", number + 1, coordinates[number].x, coordinates[number].y);
+    for(int i = 0; i < coord_index; i++) {
+        printf("Cell %d: x = %d, y = %d\n", i+1, coordinates[i].x, coordinates[i].y);
     }
     read_bitmap(argv[1], input_image);
     // Add squares to the original image
