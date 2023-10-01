@@ -7,6 +7,7 @@
 
 #define MAX_QUEUE_SIZE 10000
 
+//Implementation of the queue and the functions that go with it
 typedef struct {
     int front, rear, size;
     unsigned capacity;
@@ -61,20 +62,20 @@ void color_clusters_green(unsigned char cluster_image[BMP_WIDTH][BMP_HEIGHT][3])
 
 void find_cell_clusters(unsigned char black_white_image[BMP_WIDTH][BMP_HEIGHT])
 {
-    // Step 1: Initialize
+    // Step 1: Initializes the queue
     Queue* q = createQueue(MAX_QUEUE_SIZE);
     Coordinate Area[10000];
     int count = 0;
     unsigned char is_visited[BMP_WIDTH][BMP_HEIGHT] = {{0}};
 
-    // Step 3: Main Loop
+    // Step 2: Main Loop that runs the BFS function
     for (int x = 0; x < BMP_WIDTH; x++)
     {
         for (int y = 0; y < BMP_HEIGHT; y++)
         {
             if (black_white_image[x][y] == 255 && is_visited[x][y] == 0)
             {
-                // Step 2: BFS Function
+                //The BFS that enqueues and dequeues the queue
                 Coordinate coord = {x,y};
                 enqueue(q,coord);
                 while (!isEmpty(q))
@@ -99,7 +100,7 @@ void find_cell_clusters(unsigned char black_white_image[BMP_WIDTH][BMP_HEIGHT])
                         }
                     }
                 }
-                // Step 4: Return Clusters
+                // Step 4: Return Clusters if there are more than 499 pixels
                 if (count >= 499)
                 {
                     for (int pixel = 0; pixel < count; pixel++)
@@ -115,6 +116,7 @@ void find_cell_clusters(unsigned char black_white_image[BMP_WIDTH][BMP_HEIGHT])
     }
 }
 
+//Finds the centers of the clusters by averaging the x and y values of all the pixels in the cluster
 void find_centroid() {
     for (int i = 0; i < clusterCount; i++) {
         int sumX = 0;
@@ -128,7 +130,7 @@ void find_centroid() {
         centroids[i].y = sumY / count;
     }
 }
-
+//Takes in 3D bitmap and colors the centroids blue by placing a 6x6 blue square around the centroid
 void color_centroid_blue(unsigned char centroid_image[BMP_WIDTH][BMP_HEIGHT][3]){
     //place a 6x6 blue square around the centroid
 
@@ -151,6 +153,7 @@ void color_centroid_blue(unsigned char centroid_image[BMP_WIDTH][BMP_HEIGHT][3])
     }
 }
 
+//Finds the circumference of the clusters by comparing the clusters pixels to the image that have been binary thresholded to see if any of the pixels have black neighbors
 int getClusterCircumference(Cluster cluster, unsigned char black_and_white_image[BMP_WIDTH][BMP_HEIGHT], Circumference *circ) {
     int circumference = 0;
 
@@ -183,6 +186,7 @@ int getClusterCircumference(Cluster cluster, unsigned char black_and_white_image
     return circumference;
 }
 
+//Uses the above function to find the circumference of all the clusters by calling the function for each cluster
 void find_circumference_of_clumps(unsigned char black_and_white_image[BMP_WIDTH][BMP_HEIGHT]) {
      // Array to store circumferences for all clusters
     for (int i = 0; i < clusterCount; i++) {
@@ -190,7 +194,7 @@ void find_circumference_of_clumps(unsigned char black_and_white_image[BMP_WIDTH]
         printf("Cluster %d has circumference of %d pixels\n", i + 1, circumference);
     }
 }
-
+//Colors the circumference of the clusters red by looping through the circumference array and coloring the pixels red
 void color_circumference_red(unsigned char circumference_red[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS]){
     //color the circs red
     for (int i = 0; i < clusterCount; i++) {

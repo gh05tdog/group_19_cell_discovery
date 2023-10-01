@@ -38,17 +38,19 @@ int main(int argc, char **argv) {
     read_bitmap(argv[1], input_image);
     convert_to_binary(input_image, eroded_image);
 
+    //Loops through each cell and finds all the white pixels that are connected via BFS and a queue, then if more than 400 pixels are found, it is caller a cluster
     find_cell_clusters(eroded_image);
 
+    //Reads the first argument as bitmap then colors all the pixels found in the clusters green
     read_bitmap(argv[1], cluster_image);
-
     color_clusters_green(cluster_image);
 
+    //finds the centers for all the clusters and colors them blue
     find_centroid();
     color_centroid_blue(cluster_image);
 
+    //finds the circumference of all the clusters and colors them red
     find_circumference_of_clumps(eroded_image);
-
     color_circumference_red(cluster_image);
     write_bitmap(cluster_image, "../circumference_image.bmp");
 
