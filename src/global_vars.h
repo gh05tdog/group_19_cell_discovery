@@ -3,8 +3,8 @@
 #define GLOBAL_VARS_H
 
 typedef struct {
-    int x;
-    int y;
+   short int x;
+    short int y;
 } Coordinate;
 
 extern Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells

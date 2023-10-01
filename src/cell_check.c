@@ -4,11 +4,11 @@
 
 
 void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], int *cells) {
-    int x = 0;
+    short int x = 0;
     int count = 0;
 
     while (x < BMP_WIDTH) {
-        int y = 0;
+        short int y = 0;
 
         while (y < BMP_HEIGHT) {
             if (eroded_image[x][y] == 255) {
