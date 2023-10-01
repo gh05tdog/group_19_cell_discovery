@@ -2,8 +2,6 @@
 #ifndef GLOBAL_VARS_H
 #define GLOBAL_VARS_H
 #define MAX_CLUSTERS 5000
-#define MAX_POINTS_PER_CLUSTER 5000
-#define MAX_POINTS 1000
 
 typedef struct {
    short int x;
@@ -17,18 +15,18 @@ typedef struct {
 } Circumference;
 
 typedef struct {
-    Coordinate points[5000]; // Assuming a max of 10000 points per cluster
+    Coordinate points[5000];
     int count;
     double slopeDifferences[5000];
 } Cluster;
 
 typedef struct {
-    Coordinate points[5000]; // Assuming a max of 10000 points per cluster
+    Coordinate points[5000];
     int x;
     int y;
 } Centroid;
 
-extern Coordinate coordinates[5000]; // Assuming a maximum of 1000 cells
+extern Coordinate coordinates[5000];
 extern int coord_index;
 
 
