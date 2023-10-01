@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "global_vars.h"
 
-
+// Cell check (except coordinates) is written by Martin
 void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], int *cells) {
     short int x = 0;
     int count = 0;
@@ -59,7 +59,7 @@ void cell_check(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT], int *cells) {
                 }
 
 //____________________________________________________________________________________________
-
+             // coordinates are written by Oliver
                 if (is_clear == 1) {
                     coordinates[coord_index].x = x;
                     coordinates[coord_index].y = y;

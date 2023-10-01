@@ -8,10 +8,14 @@
 
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int *did_erode) {
 
+    // erosion (with the expection of bitwise datasaving) is written by Marcus
+
+
+    // written by Martin with the help of chatGPT
     unsigned char *temp = (unsigned char *) malloc(((BMP_WIDTH * BMP_HEIGHT/8) * sizeof(unsigned char)));
 
     *did_erode = 0;
-
+    // written by Oliver
     int structuring_element[5][5] = {
             {0, 1, 1, 1, 0},
             {1, 1, 1, 1, 1},
@@ -56,6 +60,7 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int *did_erode) {
         }
     }
 
+    // written by Martin, with the help of chatGPT
     // Copy the temp image back into binary
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {

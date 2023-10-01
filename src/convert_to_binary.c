@@ -1,7 +1,7 @@
 #include "cell_check.h"
 #include "global_vars.h"
 #include <stdio.h>
-
+// Convert to binary is written by Oliver
 void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS],
                        unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT]) {
     for (int x = 0; x < BMP_WIDTH; ++x) {
@@ -38,7 +38,7 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNE
     for (int i = 0; i < 256; ++i) {
         sum += (float) i * (float) histogram[i];
     }
-
+// Otsu has been written with the help of chatGPT
 // Compute Otsu's threshold
     for (int i = 0; i < 256; ++i) {
         q1 += histogram[i];

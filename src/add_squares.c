@@ -1,6 +1,6 @@
 #include "cell_check.h"
 #include "global_vars.h"
-
+// aad squares is written by Oliver
 void add_squares(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS], Coordinate coordinates[1000]) {
     for (int i = 0; i < coord_index; ++i) {
         int x = coordinates[i].x;
