@@ -15,21 +15,24 @@
 #include "src/global_vars.h"
 #include "src/add_squares.h"
 #include "src/convert_to_binary.h"
+#include "src/cluster_find.h"
 
-Coordinate coordinates[1000]; // Assuming a maximum of 1000 cells
+Coordinate coordinates[5000]; // Assuming a maximum of 1000 cells
 int coord_index = 0;
 
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
 unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
-int PEI = 0;
-
+unsigned char cluster_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
+int clusterCount = 0;
+Cluster clusters[MAX_CLUSTERS];
+Centroid centroids[MAX_CLUSTERS];
+Circumference circs[MAX_CLUSTERS];
 
 
 int main(int argc, char **argv) {
     clock_t start, end;
     double cpu_time_used;
-
 
 
     int cells = 0;
@@ -39,16 +42,24 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    // Check if PEI mode is enabled (Print Eroded Images)
-    if (argc == 4 && strcmp(argv[3], "-PEI") == 0) {
-        printf("PEI mode enabled\n");
-        PEI = 1;
-    }
 
     // Load image from file
     read_bitmap(argv[1], input_image);
-
     convert_to_binary(input_image, eroded_image);
+
+    find_cell_clusters(eroded_image);
+
+    read_bitmap(argv[1], cluster_image);
+
+    color_clusters_green(cluster_image);
+
+    find_centroid();
+    color_centroid_blue(cluster_image);
+
+    find_circumference_of_clumps(eroded_image);
+
+    color_circumference_red(cluster_image);
+    write_bitmap(cluster_image, "../circumference_image.bmp");
 
     start = clock();
     int i = 0;
@@ -58,27 +69,10 @@ int main(int argc, char **argv) {
         binary_erode(eroded_image,&did_erode);
         cell_check(eroded_image, &cells);
         i++;
-
-        size_t array_size = sizeof(eroded_image);
-
-  //      printf("Memory usage of the array: %zu bytes\n", array_size);
-
-        // Uncomment to enable debugging of erosion images
-        if (PEI == 1) {
-            char str[32];
-            strcpy(str, "../eroded_images/eroded_image ");
-            char numStr[23];
-            snprintf(numStr, sizeof(numStr), "%d", i);
-            strcat(str, numStr);
-            strcat(str, ".bmp");
-            gray_to_rgb(eroded_image, input_image);
-            write_bitmap(input_image, str);
-        }
     }
     end = clock();
 
     printf("The numbers of cells found is: %d\n", cells);
-
 
 
     for(int i = 0; i < coord_index; i++) {
