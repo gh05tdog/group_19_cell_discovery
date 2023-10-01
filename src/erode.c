@@ -8,7 +8,7 @@
 
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int *did_erode) {
 
-    unsigned char *temp = (unsigned char *) malloc(BMP_WIDTH * BMP_HEIGHT * sizeof(unsigned char));
+    unsigned char *temp = (unsigned char *) malloc(((BMP_WIDTH * BMP_HEIGHT/8) * sizeof(unsigned char)));
 
     *did_erode = 0;
 
@@ -71,7 +71,7 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int *did_erode) {
                 binary[x][y] = BLACK;
             }
 
-            if (binary[x][y] != temp[x * BMP_HEIGHT + y]) {
+            if (binary[x][y] != ((temp[(x * BMP_HEIGHT + y) / 8] >> (7 - (x * BMP_HEIGHT + y) % 8)) & 1)) {
                 *did_erode = 1;
             }
         }

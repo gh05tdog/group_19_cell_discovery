@@ -15,7 +15,7 @@ int coord_index = 0;
 //Declaring the array to store the image (unsigned char = unsigned 8 bit)
 unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
-int PEI = 0;
+
 
 
 int main(int argc, char **argv) {
