@@ -24,7 +24,7 @@ unsigned char input_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS];
 unsigned char eroded_image[BMP_WIDTH][BMP_HEIGHT];
 int PEI = 0;
 
-
+//hmmm
 
 int main(int argc, char **argv) {
     clock_t start, end;
