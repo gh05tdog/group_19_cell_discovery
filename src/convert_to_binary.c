@@ -51,7 +51,7 @@ void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNE
         float varBetween = (float) q1 * (float) q2 * (m1 - m2) * (m1 - m2);
         if (varBetween > varMax) {
             varMax = varBetween;
-            threshold = i;
+            threshold = i-15;
         }
     }
     printf("the threshold is: %i \n", threshold);

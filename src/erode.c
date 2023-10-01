@@ -4,11 +4,16 @@
 
 
 #define BLACK 0
-#define WHITE 255
+#define WHITE 1
 
 void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int* did_erode) {
-    unsigned char temp[BMP_WIDTH][BMP_HEIGHT];
-    *did_erode = 0;
+
+    unsigned char* temp = (unsigned char*)malloc(BMP_WIDTH * BMP_HEIGHT * sizeof(unsigned char));
+
+//    printf("Size of temp: %d bytes\n", ((BMP_WIDTH * BMP_HEIGHT + 7) / 8));
+
+        *did_erode = 0;
+
     int structuring_element[5][5] = {
             {0, 1, 1, 1, 0},
             {1, 1, 1, 1, 1},
@@ -17,19 +22,13 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int* did_erode) {
             {0, 1, 1, 1, 0}
     };
 
-    // Initialize temp with the same values as binary
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
-            temp[x][y] = binary[x][y];
-        }
-    }
 
-    for (int x = 0; x < BMP_WIDTH; ++x) {
-        for (int y = 0; y < BMP_HEIGHT; ++y) {
             unsigned char pixel = binary[x][y];
 
             if (pixel == BLACK) {
-                temp[x][y] = BLACK;
+                temp[(x * BMP_HEIGHT + y) / 8] &= ~(1 << (7 - (x * BMP_HEIGHT + y) % 8));
             } else {
                 int should_erode = 1;
 
@@ -44,13 +43,17 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int* did_erode) {
                             neighbor = binary[newX][newY];
                         }
 
-                        if (structuring_element[i + 2][j + 2] == 1 && neighbor == BLACK) {
+                        if (structuring_element[i + 2][j + 2] == WHITE && neighbor == BLACK) {
                             should_erode = 0;
                         }
                     }
                 }
-
-                temp[x][y] = should_erode ? WHITE : BLACK;
+                // pack bitwise into temp
+                if (should_erode) {
+                    temp[(x * BMP_HEIGHT + y) / 8] |= (1 << (7 - (x * BMP_HEIGHT + y) % 8));
+                } else {
+                    temp[(x * BMP_HEIGHT + y) / 8] &= ~(1 << (7 - (x * BMP_HEIGHT + y) % 8));
+                }
             }
         }
     }
@@ -58,11 +61,22 @@ void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int* did_erode) {
     // Copy the temp image back into binary
     for (int x = 0; x < BMP_WIDTH; ++x) {
         for (int y = 0; y < BMP_HEIGHT; ++y) {
-            if (binary [x][y] != temp[x][y]) {
-                *did_erode = 1;
+            int bit_position = (x * BMP_HEIGHT + y) % 8;
+            unsigned char byte = temp[(x * BMP_HEIGHT + y) / 8];
 
+            // Check the specific bit within the byte
+            int bit_value = (byte >> (7 - bit_position)) & 1;
+
+            if (bit_value == 1) {
+                binary[x][y] = 255;
+            } else {
+                binary[x][y] = BLACK;
             }
-            binary[x][y] = temp[x][y];
+
+            if (binary[x][y] != temp[x * BMP_HEIGHT + y]) {
+                *did_erode = 1;
+            }
         }
     }
+    free(temp);
 }

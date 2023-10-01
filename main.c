@@ -34,8 +34,7 @@ int main(int argc, char **argv) {
 
 
     int cells = 0;
-    const int MAX_ITERATIONS = 10;
-    // Checking that 2 or 3 arguments are passed
+
     if (argc < 3 || argc > 4) {
         fprintf(stderr, "Usage: %s <input file path> <output file path> [-PEI]\n", argv[0]);
         exit(1);
@@ -63,7 +62,7 @@ int main(int argc, char **argv) {
 
         size_t array_size = sizeof(eroded_image);
 
-        printf("Memory usage of the array: %zu bytes\n", array_size);
+  //      printf("Memory usage of the array: %zu bytes\n", array_size);
 
         // Uncomment to enable debugging of erosion images
         if (PEI == 1) {
