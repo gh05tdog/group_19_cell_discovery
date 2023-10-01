@@ -6,13 +6,11 @@
 #define BLACK 0
 #define WHITE 1
 
-void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int* did_erode) {
+void binary_erode(unsigned char binary[BMP_WIDTH][BMP_HEIGHT], int *did_erode) {
 
-    unsigned char* temp = (unsigned char*)malloc(BMP_WIDTH * BMP_HEIGHT * sizeof(unsigned char));
+    unsigned char *temp = (unsigned char *) malloc(BMP_WIDTH * BMP_HEIGHT * sizeof(unsigned char));
 
-//    printf("Size of temp: %d bytes\n", ((BMP_WIDTH * BMP_HEIGHT + 7) / 8));
-
-        *did_erode = 0;
+    *did_erode = 0;
 
     int structuring_element[5][5] = {
             {0, 1, 1, 1, 0},

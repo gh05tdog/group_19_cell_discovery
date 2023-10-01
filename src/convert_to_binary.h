@@ -4,9 +4,9 @@
 
 #ifndef GROUP_19_CELL_DISCOVERY_CONVERT_TO_BINARY_H
 #define GROUP_19_CELL_DISCOVERY_CONVERT_TO_BINARY_H
+
 #include "cbmp.h"
 
 void convert_to_binary(unsigned char rgb_image[BMP_WIDTH][BMP_HEIGHT][BMP_CHANNELS],
                        unsigned char binary_image[BMP_WIDTH][BMP_HEIGHT]);
-void gray_to_rgb(unsigned char gray_image[950][950], unsigned char rgb_image[950][950][3] );
 #endif //GROUP_19_CELL_DISCOVERY_CONVERT_TO_BINARY_H
